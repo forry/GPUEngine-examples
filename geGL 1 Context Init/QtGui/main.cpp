@@ -2,13 +2,15 @@
 #include <OpenGLWindow.h>
 #include <QtGui/QOpenGLContext>
 
+//! [main]
+int main(int argc, char **argv)
+{
+   QGuiApplication app(argc, argv);
 
-int main(int argc, char** argv) {
-    QGuiApplication app(argc, argv);
+   ge::examples::OpenGLWindow window;
+   window.resize(640, 480);
+   window.show();
 
-    ge::examples::OpenGLWindow window;
-    window.resize(640,480);
-    window.show();
-
-    return app.exec();
+   return app.exec();
 }
+//! [main]

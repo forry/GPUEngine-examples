@@ -19,6 +19,9 @@ namespace ge
    namespace examples
    {
 
+      /**
+       * Basic QWindow subclass for simple OpenGL rendering.
+       */
       class OpenGLWindow : public QWindow
       {
       Q_OBJECT
