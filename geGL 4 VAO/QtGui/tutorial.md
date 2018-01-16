@@ -1,5 +1,5 @@
 
- \example "geGL 3 Buffers"
+ \example "geGL 4 VAO"
 
 In this example we will look into OpenGL buffers. We can create and initialize buffer in constructor or just create an empty buffer. We need to specify the size.
 \snippet OpenGLWindow.cpp buffer_ctor

@@ -26,6 +26,12 @@ std::vector<float> ge::examples::OpenGLWindow::trianglePos = {-1.0f, -1.0f, 0.0f
                                                    1.0f, -1.0f, 0.0f,
                                                    0.0f, 1.0f, 0.0f,};
 
+std::vector<float> ge::examples::OpenGLWindow::triangleCol = {1.0f, 0.0f, 0.0f,
+                                                              0.0f, 1.0f, 0.0f,
+                                                              0.0f, 0.0f, 1.0f,};
+
+std::vector<int> ge::examples::OpenGLWindow::indices = {0,1,2};
+
 //![fragment]
 
 //! [ctor]
