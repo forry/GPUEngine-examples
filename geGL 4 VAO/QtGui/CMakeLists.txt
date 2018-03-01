@@ -11,7 +11,15 @@ set(sources
     main.cpp
     OpenGLWindow.cpp OpenGLWindow.h
 )
+find_file(vertexShader vertexShader.glsl
+      HINTS ${CMAKE_CURRENT_LIST_DIR}/..
+      )
+
+find_file(fragmentShader fragmentShader.glsl
+      HINTS ${CMAKE_CURRENT_LIST_DIR}/..
+      )
 
 add_executable(geGL_4_VAO ${sources})
 target_link_libraries(geGL_4_VAO Qt5::Gui geGL)
 target_include_directories(geGL_4_VAO PUBLIC ${CMAKE_CURRENT_LIST_DIR} )
+target_compile_definitions(geGL_4_VAO PUBLIC "VERTEX_SHADER=\"${vertexShader}\"" "FRAGMENT_SHADER=\"${fragmentShader}\"")

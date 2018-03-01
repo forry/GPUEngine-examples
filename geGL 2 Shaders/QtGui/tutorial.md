@@ -7,13 +7,17 @@
   engine specific file. Or they could be generated or inserted in the source files. We cover this two methods since we
   have two shaders. A fragment shader and a vertex shader. Fragment shader is a simpler one so let's begin with it. We
   can find it's source in the static variable in our OpenGLWindow.
-  \snippet OpenGLWindow.cpp fragment
+  
+ \snippet "geGL 2 Shaders/QtGui/OpenGLWindow.cpp" fragment
+  
   It is defined as a multi line string literal. The other shader is available as a text file triag_vs.glsl. Since it is
-  somewhere on our disk we are unable to just open it from our program via the relative path. Remember that an out of 
-  source build is a good practice and even if we could miraculously guarantee that our exe file and the shader are together
+  somewhere on our disk we are unable to just open it from our program via the relative path. Remember that an **out of 
+  source** build is a good practice and even if we could miraculously guarantee that our exe file and the shader are together
   the relative path actualy refers to a working directory from where we started the executable not to the executable intself.
-  In production code we have the thin probably installed and there is an absolute path to it in e.g. window registry or
-  we are just forcing user to run the application in our install directory. Here in this example we just use CMake to
+  In production code we have the thing probably installed and there is an absolute path to it in e.g. window registry or
+  we are just forcing user to run the application in our install directory. Basicaly the situation of an installed package vs 
+  the developers build environment is very different. Both of them needs to be dealt with separately. Here we are working
+  as developers. So in this example we use CMake to
   get the path for us since we are not installing anything. The only information we have is from our build configuration.
   And since the purpose of these examples are to be read and build from the source code this is ok.
   \code{.cmake}
@@ -30,10 +34,10 @@
   This sets us with the VERTEX_SHADER define with the absolute path to the shader file which we can use to load the shader.
   Loading a simple text file is a well known thing so we use the text file loader from geCore package. It all looks like 
   this:
-  \snippet OpenGLWindow.cpp shader
+  \snippet "geGL 2 Shaders/QtGui/OpenGLWindow.cpp" shader
   After these 3 lines the shaders should be created, compiled, attached and link together at the shaderProgram object.
   Now all we need to do is run it. We add 3 more lines to our render function. It all looks like this:
-  \snippet OpenGLWindow.cpp render
+  \snippet "geGL 2 Shaders/QtGui/OpenGLWindow.cpp" render
   If you wonder where are the vertices come from since we haven't loaded anything into any buffers yet that's for your
   homework. Simple answer is nowhere and you might want to check the vertex shader:
   \code{.glsl}

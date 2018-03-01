@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-//![fragment]
+//! [fragment]
 
 const std::string ge::examples::OpenGLWindow::fragmentShaderSrc =
    "#version 430\n"
@@ -22,7 +22,7 @@ const std::string ge::examples::OpenGLWindow::fragmentShaderSrc =
          "   fragColor = vec4(0.8, 0, 0, 1);\n"
          "}";
 
-//![fragment]
+//! [fragment]
 
 //! [ctor]
 ge::examples::OpenGLWindow::OpenGLWindow(QWindow *parent)

@@ -10,6 +10,7 @@
 #include <iostream>
 
 //! [ctor]
+
 ge::examples::OpenGLWindow::OpenGLWindow(QWindow *parent)
       : QWindow(parent)
       , initialized(false)
@@ -19,6 +20,7 @@ ge::examples::OpenGLWindow::OpenGLWindow(QWindow *parent)
    surfaceFormat.setVersion(4, 5);
    surfaceFormat.setProfile(QSurfaceFormat::CoreProfile);
 }
+
 //! [ctor]
 
 ge::examples::OpenGLWindow::~OpenGLWindow()
@@ -34,6 +36,7 @@ void ge::examples::OpenGLWindow::initialize()
 {
    if (initialized) return;
    //! [qt_context]
+
    if (!context)
    {
       context = new QOpenGLContext(this);
@@ -44,17 +47,22 @@ void ge::examples::OpenGLWindow::initialize()
          //fail gracefully
       }
    }
+
    //! [qt_context]
 
    //! [makeCurrent]
+
    //let's say to the OS that we want to work with this context
    context->makeCurrent(this);
+
    //! [makeCurrent]
 
    //! [geGL_init]
+
    /*GPUEngine Init*/
    ge::gl::init();
    gl = std::make_shared<ge::gl::Context>();
+
    //! [geGL_init]
    //check the version you got - might be different of what you wanted
    std::cout << "OpenGL version:\n  " << gl->glGetString(GL_VERSION) << std::endl;
@@ -63,6 +71,7 @@ void ge::examples::OpenGLWindow::initialize()
 }
 
 //! [render]
+
 void ge::examples::OpenGLWindow::render()
 {
    const qreal retinaScale = devicePixelRatio();
@@ -72,9 +81,11 @@ void ge::examples::OpenGLWindow::render()
 
    context->swapBuffers(this);
 }
+
 //! [render]
 
 //! [renderNow]
+
 void ge::examples::OpenGLWindow::renderNow()
 {
    if (!isExposed()) return;
@@ -87,9 +98,11 @@ void ge::examples::OpenGLWindow::renderNow()
 
    //release context only if necessary
 }
+
 //! [renderNow]
 
 //! [eventFilter]
+
 bool ge::examples::OpenGLWindow::event(QEvent *event)
 {
    switch (event->type())
@@ -101,9 +114,11 @@ bool ge::examples::OpenGLWindow::event(QEvent *event)
          return QWindow::event(event);
    }
 }
+
 //! [eventFilter]
 
 //! [expose]
+
 void ge::examples::OpenGLWindow::exposeEvent(QExposeEvent *event)
 {
    if (isExposed())
@@ -111,4 +126,5 @@ void ge::examples::OpenGLWindow::exposeEvent(QExposeEvent *event)
       renderNow();
    }
 }
+
 //! [expose]

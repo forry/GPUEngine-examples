@@ -82,12 +82,20 @@ void ge::examples::OpenGLWindow::initialize()
 
    ge::gl::Buffer buffer1(trianglePos.size() * sizeof(float), trianglePos.data()/*, GL_STATIC_DRAW */);
    ge::gl::Buffer buffer2(trianglePos.size() * sizeof(float));
+   std::shared_ptr<ge::gl::Buffer> buffer3 = std::make_shared<ge::gl::Buffer>(4);
 
    //! [buffer_ctor]
+
+   //! [buffer_realoc]
+
+   buffer3->realloc(trianglePos.size() * sizeof(float));
+
+   //! [buffer_realoc]
 
    //! [buffer_cpy]
 
    buffer2.copy(buffer1);
+   buffer3->copy(buffer1);
 
    //! [buffer_cpy]
 
@@ -103,6 +111,12 @@ void ge::examples::OpenGLWindow::initialize()
    bool transferSuccess = std::equal(trianglePos.begin(), trianglePos.end(), readBuffer.begin());
    std::cout<< "\ntransfer success " << transferSuccess << std::endl;
 
+   buffer3->getData(readBuffer.data());
+
+   std::for_each(readBuffer.begin(), readBuffer.end(),[](auto & val){std::cout<< val <<" ";});
+
+   transferSuccess = std::equal(trianglePos.begin(), trianglePos.end(), readBuffer.begin());
+   std::cout<< "\ntransfer to buffer 3 success " << transferSuccess << std::endl;
 
    //! [buffer_map]
 

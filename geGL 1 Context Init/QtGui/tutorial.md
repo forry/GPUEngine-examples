@@ -2,27 +2,27 @@
  \example "geGL 1 QtGui Context Init"
  This example shows how to initialize OpenGL context with Qt Gui and use this context
  for geGL initialization. Then we show simple usage of common gl functions. This example is build upon an original
- [Qt OpenGL Window Example]. The main is super simple and just instantiates
+ [Qt OpenGL Window Example]. You should read the example and the Qt doc on the topic before this. The main is super simple and just instantiates
  our window subclass.
- \snippet ./main.cpp main
+ \snippet "geGL 1 Context Init/QtGui/main.cpp" main
  Everything is done in the OpenGLWindow class. It is important to set the correct surface type before creating a context.
  We do this in constructor. We can also setup our custom surface format
- \snippet OpenGLWindow.cpp ctor
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" ctor
  We can initialize the context only after the window is shown or first exposed as the Qt doc said. The exposed event
  can be intercepted by overriding the exposeEvent() function of QWindow.
- \snippet OpenGLWindow.cpp expose
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" expose
  The initialization is called from the renderNow method. But it can be called wherever. Just remember, the window needs
  to exist at that time.
- \snippet OpenGLWindow.cpp renderNow
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" renderNow
  The first part of the initialization is context creation. Since GPUEngine doesn't provide us with the necessary tools
  because it is platform independent/unaware that's what we use Qt for.
- \snippet OpenGLWindow.cpp qt_context
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" qt_context
  Next we need to say our OS that we want to use this context. Otherwise all context related calls will fail.
- \snippet OpenGLWindow.cpp makeCurrent
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" makeCurrent
  Then we can proceed with the geGL initialization which is very simple.
- \snippet OpenGLWindow.cpp geGL_init
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" geGL_init
  After that we should have all available gl functions entry points saved in the gl object. Which we can simply use like this:
- \snippet OpenGLWindow.cpp render
+ \snippet "geGL 1 Context Init/QtGui/OpenGLWindow.cpp" render
  Of course we need to call swapBuffers somewhere. Just note that this is also a OS function not the OpenGL one, so we
  use Qt for that not the geGL. There are some instances where this is done for us by the library that provides us with
  context or the visualization loop. E.g. if we'd used the Qt Quick we would got the context created and the Qt would call

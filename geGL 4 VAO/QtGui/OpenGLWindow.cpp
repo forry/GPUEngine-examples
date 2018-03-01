@@ -10,17 +10,6 @@
 
 #include <iostream>
 
-//![fragment]
-
-const std::string ge::examples::OpenGLWindow::fragmentShaderSrc =
-      "#version 430\n"
-            "\n"
-            "out vec4 fragColor;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "   fragColor = vec4(0.8, 0, 0, 1);\n"
-            "}";
 
 std::vector<float> ge::examples::OpenGLWindow::trianglePos = {-1.0f, -1.0f, 0.0f,
                                                    1.0f, -1.0f, 0.0f,
@@ -32,7 +21,6 @@ std::vector<float> ge::examples::OpenGLWindow::triangleCol = {1.0f, 0.0f, 0.0f,
 
 std::vector<int> ge::examples::OpenGLWindow::indices = {0,1,2};
 
-//![fragment]
 
 //! [ctor]
 ge::examples::OpenGLWindow::OpenGLWindow(QWindow *parent)
@@ -81,57 +69,42 @@ void ge::examples::OpenGLWindow::initialize()
    ge::gl::init();
    gl = std::make_shared<ge::gl::Context>();
    //! [geGL_init]
-   std::for_each(trianglePos.begin(), trianglePos.end(),[](auto & val){std::cout<< val <<" ";});
-   std::cout << std::endl;
+
+   //! [shaders]
+
+   std::shared_ptr<ge::gl::Shader> vertexShader = std::make_shared<ge::gl::Shader>(GL_VERTEX_SHADER, ge::core::loadTextFile(VERTEX_SHADER));
+   std::shared_ptr<ge::gl::Shader> fragmentShader = std::make_shared<ge::gl::Shader>(GL_FRAGMENT_SHADER, ge::core::loadTextFile(FRAGMENT_SHADER));
+   shaderProgram = std::make_shared<ge::gl::Program>(vertexShader, fragmentShader);
+
+   //! [shaders]
 
    //! [buffer_ctor]
 
-   ge::gl::Buffer buffer1(trianglePos.size() * sizeof(float), trianglePos.data()/*, GL_STATIC_DRAW */);
-   ge::gl::Buffer buffer2(trianglePos.size() * sizeof(float));
+   positions = std::make_shared<ge::gl::Buffer>(trianglePos.size() * sizeof(float), trianglePos.data()/*, GL_STATIC_DRAW */);
+   colors = std::make_shared<ge::gl::Buffer>(triangleCol.size() * sizeof(float), triangleCol.data()/*, GL_STATIC_DRAW */);
+   elementBuffer = std::make_shared<ge::gl::Buffer>(indices.size() * sizeof(int), indices.data()/*, GL_STATIC_DRAW */);
 
    //! [buffer_ctor]
 
-   //! [buffer_cpy]
+   //! [VAO]
 
-   buffer2.copy(buffer1);
+   VAO = std::make_shared<ge::gl::VertexArray>();
 
-   //! [buffer_cpy]
+   VAO->bind();
+   VAO->addElementBuffer(elementBuffer);
+   VAO->addAttrib(positions, 0, 3, GL_FLOAT);
+   VAO->addAttrib(colors, 1,3,GL_FLOAT);
+   VAO->unbind();
 
-   //! [buffer_read]
+   //! [VAO]
 
-   std::vector<float> readBuffer(9);
-   buffer2.getData(readBuffer.data());
-
-   //! [buffer_read]
-
-   std::for_each(readBuffer.begin(), readBuffer.end(),[](auto & val){std::cout<< val <<" ";});
-
-   bool transferSuccess = std::equal(trianglePos.begin(), trianglePos.end(), readBuffer.begin());
-   std::cout<< "\ntransfer success " << transferSuccess << std::endl;
-
-
-   //! [buffer_map]
-
-   std::reverse(readBuffer.begin(), readBuffer.end());
-   std::for_each(readBuffer.begin(), readBuffer.end(),[](auto & val){std::cout<< val <<" ";});
-   std::cout << std::endl;
-
-   float* mappedBuffer2 = (float*)buffer2.map();
-   std::cout <<"buff[3] " << mappedBuffer2[3] << std::endl;
-
-   std::copy(readBuffer.begin(), readBuffer.end(), mappedBuffer2);
-
-   std::cout <<"buff[3] " << mappedBuffer2[3] << std::endl;
-
-   buffer2.unmap();
-
-   //! [buffer_map]
 
 
    initialized = true;
 }
 
 //! [render]
+
 void ge::examples::OpenGLWindow::render()
 {
    const qreal retinaScale = devicePixelRatio();
@@ -139,10 +112,27 @@ void ge::examples::OpenGLWindow::render()
    gl->glClearColor(.392, .584, 0.929, 1.0);
    gl->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+   shaderProgram->use();
+   VAO->bind();
+   gl->glDrawElements(GL_TRIANGLES,3,GL_UNSIGNED_INT, nullptr);
+
+   printError(); // checks for gl error and if any prints it to stdout
+
 
    context->swapBuffers(this);
 }
+
 //! [render]
+
+void ge::examples::OpenGLWindow::printError() const
+{
+   auto err = this->gl->glGetError();
+   if(err != GL_NO_ERROR)
+   {
+
+      std::cout << err << std::endl;
+   }
+}
 
 //! [renderNow]
 void ge::examples::OpenGLWindow::renderNow()
