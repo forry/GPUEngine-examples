@@ -8,6 +8,7 @@
 #include <memory>
 
 class QOpenGLPaintDevice;
+
 namespace ge
 {
    namespace gl
@@ -15,6 +16,7 @@ namespace ge
       class Context;
       class Program;
       class VertexArray;
+      class Buffer;
    }
    namespace examples
    {
@@ -42,6 +44,7 @@ namespace ge
       protected:
          bool event(QEvent *event) override;
          void exposeEvent(QExposeEvent *event) override;
+         void printError() const;
 
       private:
          bool initialized;
@@ -51,6 +54,7 @@ namespace ge
          static std::vector<unsigned> indices;
          std::shared_ptr<ge::gl::Context> gl;
          std::shared_ptr<ge::gl::Program> shaderProgram;
+         std::shared_ptr<ge::gl::Buffer> SSBO;
          std::shared_ptr<ge::gl::VertexArray> VAO;
          QOpenGLContext *context;
          QSurfaceFormat surfaceFormat;
