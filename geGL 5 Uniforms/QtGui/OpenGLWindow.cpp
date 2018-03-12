@@ -89,23 +89,36 @@ void ge::examples::OpenGLWindow::initialize()
 
    //! [shaders]
 
+   //! [attrib_buffer]
+
    std::shared_ptr<ge::gl::Buffer> positions = std::make_shared<ge::gl::Buffer>(trianglePos.size() * sizeof(float), trianglePos.data());
    std::shared_ptr<ge::gl::Buffer> element = std::make_shared<ge::gl::Buffer>(indices.size() * sizeof(unsigned), indices.data());
 
+   //! [attrib_buffer]
+
+
+   //! [SSBO]
+
    std::vector<glm::mat4> modelMatrices;
-   glm::mat4 mat = glm::translate(glm::mat4(1.0f), glm::vec3{0,0,-5});
+   glm::mat4 mat = glm::translate(glm::mat4(1.0f), glm::vec3{0,0,-5}) * glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), glm::vec3{1.f,1.0f,0.f});
    modelMatrices.push_back(mat);
-   qDebug() << "matrix sizeof " << sizeof(glm::mat4) << " " << modelMatrices.size() << "\n";
+
    SSBO = std::make_shared<ge::gl::Buffer>(modelMatrices.size() * sizeof(glm::mat4), modelMatrices.data());
+
+   //! [SSBO]
 
    //! [projection]
 
    glm::mat4 perpective = glm::perspective(glm::radians(45.f), (float)width() / height(), 0.1f, 1000.f); // no resizing yet
 
+   //! [projection]
+
+   //! [uniforms]
+
    shaderProgram->setMatrix4fv("projection", glm::value_ptr(perpective))
                 ->bindBuffer("model",SSBO);
 
-   //! [projection]
+   //! [uniforms]
 
    printError();
 
