@@ -6,7 +6,7 @@
 
 #include <QtGui/QOpenGLContext>
 #include <geGL/geGL.h>
-#include <geCore/Text.h>
+#include <geUtil/Text.h>
 
 #include <iostream>
 
@@ -76,7 +76,7 @@ void ge::examples::OpenGLWindow::initialize()
 
    //! [shader]
 
-   std::shared_ptr<ge::gl::Shader> vertexShader = std::make_shared<ge::gl::Shader>(GL_VERTEX_SHADER, ge::core::loadTextFile(VERTEX_SHADER));
+   std::shared_ptr<ge::gl::Shader> vertexShader = std::make_shared<ge::gl::Shader>(GL_VERTEX_SHADER, ge::util::loadTextFile(VERTEX_SHADER));
    std::shared_ptr<ge::gl::Shader> fragmentShader = std::make_shared<ge::gl::Shader>(GL_FRAGMENT_SHADER, fragmentShaderSrc);
 
    shaderProgram = std::make_shared<ge::gl::Program>(vertexShader,fragmentShader);
