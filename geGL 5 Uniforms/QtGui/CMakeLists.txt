@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 
-find_package(GPUEngine COMPONENTS REQUIRED geGL geCore)
+find_package(GPUEngine COMPONENTS REQUIRED geGL geUtil)
 find_package(Qt5 COMPONENTS REQUIRED Gui)
 find_package(glm REQUIRED)
 
@@ -33,10 +33,14 @@ add_custom_target(resources SOURCES ${vertexShader} ${fragmentShader})
 SOURCE_GROUP(shaders FILES ${vertexShader} ${fragmentShader})
 
 add_executable(${PROJECT_NAME} ${sources})
-target_link_libraries(${PROJECT_NAME} Qt5::Gui geGL geCore glm)
+target_link_libraries(${PROJECT_NAME} Qt5::Gui geGL geUtil glm)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR} )
 target_compile_definitions(${PROJECT_NAME} PUBLIC "VERTEX_SHADER=\"${vertexShader}\"" "FRAGMENT_SHADER=\"${fragmentShader}\"")
 
-#MSVC special
-set_target_properties(${PROJECT_NAME} PROPERTIES VS_GLOBAL_DLLDir "${geDLLs};${Qt5DLLs}")
+# setting up the MSVC helper var
+get_target_property(Qt5dllPath Qt5::Gui IMPORTED_LOCATION_RELEASE)
+get_filename_component(Qt5dllDir ${Qt5dllPath} DIRECTORY)
+get_target_property(GPUEdllPath geGL IMPORTED_LOCATION_RELEASE)
+get_filename_component(GPUEdllDir ${GPUEdllPath} DIRECTORY)
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_GLOBAL_DllPath "${GPUEdllDir};${Qt5dllDir}")
 SET_PROPERTY(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})

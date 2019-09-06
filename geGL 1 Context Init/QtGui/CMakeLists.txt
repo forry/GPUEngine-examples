@@ -15,3 +15,12 @@ set(sources
 add_executable(geGL_1_Context_Init ${sources})
 target_link_libraries(geGL_1_Context_Init Qt5::Gui geGL)
 target_include_directories(geGL_1_Context_Init PUBLIC ${CMAKE_CURRENT_LIST_DIR} )
+
+
+# setting up the MSVC helper var
+get_target_property(Qt5dllPath Qt5::Gui IMPORTED_LOCATION_RELEASE)
+get_filename_component(Qt5dllDir ${Qt5dllPath} DIRECTORY)
+get_target_property(GPUEdllPath geGL IMPORTED_LOCATION_RELEASE)
+get_filename_component(GPUEdllDir ${GPUEdllPath} DIRECTORY)
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_GLOBAL_DllPath "${GPUEdllDir};${Qt5dllDir}")
+SET_PROPERTY(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})

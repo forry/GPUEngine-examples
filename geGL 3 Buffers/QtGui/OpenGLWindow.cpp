@@ -6,7 +6,6 @@
 
 #include <QtGui/QOpenGLContext>
 #include <geGL/geGL.h>
-#include <geCore/Text.h>
 
 #include <iostream>
 

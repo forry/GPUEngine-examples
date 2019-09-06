@@ -6,7 +6,7 @@
 
 #include <QtGui/QOpenGLContext>
 #include <geGL/geGL.h>
-#include <geCore/Text.h>
+#include <geUtil/Text.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -83,8 +83,8 @@ void ge::examples::OpenGLWindow::initialize()
 
    //! [shaders]
 
-   std::shared_ptr<ge::gl::Shader> vertexShader = std::make_shared<ge::gl::Shader>(GL_VERTEX_SHADER, ge::core::loadTextFile(VERTEX_SHADER));
-   std::shared_ptr<ge::gl::Shader> fragmentShader = std::make_shared<ge::gl::Shader>(GL_FRAGMENT_SHADER, ge::core::loadTextFile(FRAGMENT_SHADER));
+   std::shared_ptr<ge::gl::Shader> vertexShader = std::make_shared<ge::gl::Shader>(GL_VERTEX_SHADER, ge::util::loadTextFile(VERTEX_SHADER));
+   std::shared_ptr<ge::gl::Shader> fragmentShader = std::make_shared<ge::gl::Shader>(GL_FRAGMENT_SHADER, ge::util::loadTextFile(FRAGMENT_SHADER));
    shaderProgram = std::make_shared<ge::gl::Program>(vertexShader, fragmentShader);
 
    //! [shaders]
