@@ -56,6 +56,8 @@ namespace ge
          std::shared_ptr<ge::gl::Program> shaderProgram;
          std::shared_ptr<ge::gl::Buffer> SSBO;
          std::shared_ptr<ge::gl::VertexArray> VAO;
+         std::shared_ptr<ge::gl::Buffer> positions;
+         std::shared_ptr<ge::gl::Buffer> element;
          QOpenGLContext *context;
          QSurfaceFormat surfaceFormat;
       };

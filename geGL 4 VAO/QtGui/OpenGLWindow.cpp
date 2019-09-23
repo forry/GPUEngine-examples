@@ -90,11 +90,9 @@ void ge::examples::OpenGLWindow::initialize()
 
    VAO = std::make_shared<ge::gl::VertexArray>();
 
-   VAO->bind();
    VAO->addElementBuffer(elementBuffer);
    VAO->addAttrib(positions, 0, 3, GL_FLOAT);
    VAO->addAttrib(colors, 1,3,GL_FLOAT);
-   VAO->unbind();
 
    //! [VAO]
 

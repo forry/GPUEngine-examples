@@ -91,8 +91,8 @@ void ge::examples::OpenGLWindow::initialize()
 
    //! [attrib_buffer]
 
-   std::shared_ptr<ge::gl::Buffer> positions = std::make_shared<ge::gl::Buffer>(trianglePos.size() * sizeof(float), trianglePos.data());
-   std::shared_ptr<ge::gl::Buffer> element = std::make_shared<ge::gl::Buffer>(indices.size() * sizeof(unsigned), indices.data());
+   positions = std::make_shared<ge::gl::Buffer>(trianglePos.size() * sizeof(float), trianglePos.data());
+   element = std::make_shared<ge::gl::Buffer>(indices.size() * sizeof(unsigned), indices.data());
 
    //! [attrib_buffer]
 
@@ -116,7 +116,7 @@ void ge::examples::OpenGLWindow::initialize()
    //! [uniforms]
 
    shaderProgram->setMatrix4fv("projection", glm::value_ptr(perpective))
-                ->bindBuffer("model",SSBO);
+                ->bindBuffer("perDrawData_t",SSBO);
 
    //! [uniforms]
 
@@ -126,10 +126,8 @@ void ge::examples::OpenGLWindow::initialize()
 
    VAO = std::make_shared<ge::gl::VertexArray>();
 
-   VAO->bind();
    VAO->addElementBuffer(element);
    VAO->addAttrib(positions, 0, 3, GL_FLOAT);
-   VAO->unbind();
 
    //! [VAO]
 
